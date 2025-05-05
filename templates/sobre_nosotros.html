@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Sobre Nosotros - Bibliolexis{% endblock %}
+
+{% block body_class %}about-page{% endblock %}
+
+{% block navbar %}
+<nav class="navbar transparent">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="nav-logo">
+        <span>Bibliolexis</span>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Inicio</a>
+        <a href="{{ url_for('sobre_nosotros') }}" class="active">Sobre Nosotros</a>
+        <a href="{{ url_for('clientes') }}">Nuestros Clientes</a>
+        <a href="{{ url_for('contacto') }}">Contáctanos</a>
+        <a href="{{ url_for('login') }}" class="btn-login">Iniciar Sesión</a>
+    </div>
+    <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>Nuestra Historia</h1>
+        <p>Conoce más sobre Bibliolexis y nuestra misión de organizar el conocimiento</p>
+    </div>
+</div>
+
+<div class="about-container">
+    <section class="about-section">
+        <h2>¿Quiénes Somos?</h2>
+        <div class="about-content">
+            <div class="about-text">
+                <p>Bibliolexis nació en 2023 con una misión clara: hacer que la gestión de bibliotecas sea accesible, eficiente y agradable. Somos un equipo de apasionados por los libros y la tecnología que cree en el poder transformador de la lectura.</p>
+                <p>Nuestro sistema facilita la organización, préstamo y seguimiento de colecciones de libros para bibliotecas de todos los tamaños, desde pequeñas bibliotecas escolares hasta grandes instituciones académicas.</p>
+            </div>
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='img/team.jpg') }}" alt="Equipo de Bibliolexis">
+            </div>
+        </div>
+    </section>
+
+    <section class="mission-section">
+        <div class="mission-content">
+            <div class="mission-image">
+                <img src="{{ url_for('static', filename='img/mission.jpg') }}" alt="Nuestra misión">
+            </div>
+            <div class="mission-text">
+                <h2>Nuestra Misión</h2>
+                <p>Democratizar el acceso al conocimiento a través de herramientas eficientes para la gestión de bibliotecas. Creemos que una biblioteca bien gestionada es un recurso invaluable para cualquier comunidad.</p>
+                <p>Trabajamos continuamente para mejorar nuestro sistema, haciéndolo más intuitivo, potente y adaptado a las necesidades de nuestros usuarios.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="values-section">
+        <h2>Nuestros Valores</h2>
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="value-icon">📚</div>
+                <h3>Pasión por el Conocimiento</h3>
+                <p>Creemos en el poder transformador de los libros y en facilitar su acceso a todas las personas.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">🔍</div>
+                <h3>Innovación Constante</h3>
+                <p>Buscamos constantemente nuevas formas de mejorar la experiencia de gestión bibliotecaria.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">🤝</div>
+                <h3>Servicio Excepcional</h3>
+                <p>Nuestros clientes son nuestra prioridad. Estamos comprometidos con su éxito.</p>
+            </div>
+            
+            <div class="value-card">
+                <div class="value-icon">🌍</div>
+                <h3>Impacto Social</h3>
+                <p>Trabajamos para que más personas puedan acceder a bibliotecas bien organizadas.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Nuestro Equipo</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="member-avatar">
+                    <div class="avatar-placeholder">AM</div>
+                </div>
+                <h3>Ana Martínez</h3>
+                <p class="member-role">Fundadora & CEO</p>
+                <p class="member-bio">Apasionada por los libros y la tecnología. Bibliotecaria con 15 años de experiencia.</p>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-avatar">
+                    <div class="avatar-placeholder">CR</div>
+                </div>
+                <h3>Carlos Rodríguez</h3>
+                <p class="member-role">Director de Tecnología</p>
+                <p class="member-bio">Ingeniero de software con experiencia en sistemas de gestión de información.</p>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-avatar">
+                    <div class="avatar-placeholder">EL</div>
+                </div>
+                <h3>Elena López</h3>
+                <p class="member-role">Directora de Experiencia</p>
+                <p class="member-bio">Especialista en UX/UI con pasión por crear interfaces intuitivas y accesibles.</p>
+            </div>
+            
+            <div class="team-member">
+                <div class="member-avatar">
+                    <div class="avatar-placeholder">MG</div>
+                </div>
+                <h3>Miguel González</h3>
+                <p class="member-role">Soporte Técnico</p>
+                <p class="member-bio">Siempre disponible para ayudar a nuestros clientes a sacar el máximo provecho del sistema.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>¿Listo para organizar tu biblioteca?</h2>
+            <p>Únete a cientos de bibliotecas que ya confían en Bibliolexis para gestionar sus colecciones.</p>
+            <div class="cta-buttons">
+                <a href="{{ url_for('registro') }}" class="btn-register">Registrarse Ahora</a>
+                <a href="{{ url_for('contacto') }}" class="btn-contact">Contáctanos</a>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,215 @@
+{% extends "base.html" %}
+
+{% block title %}Contáctanos - Bibliolexis{% endblock %}
+
+{% block body_class %}contact-page{% endblock %}
+
+{% block navbar %}
+<nav class="navbar transparent">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="nav-logo">
+        <span>Bibliolexis</span>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Inicio</a>
+        <a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a>
+        <a href="{{ url_for('clientes') }}">Nuestros Clientes</a>
+        <a href="{{ url_for('contacto') }}" class="active">Contáctanos</a>
+        <a href="{{ url_for('login') }}" class="btn-login">Iniciar Sesión</a>
+    </div>
+    <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section contact-hero">
+    <div class="hero-content">
+        <h1>Contáctanos</h1>
+        <p>Estamos aquí para ayudarte con cualquier consulta o duda sobre Bibliolexis</p>
+    </div>
+</div>
+
+<div class="contact-container">
+    <div class="contact-grid">
+        <div class="contact-info">
+            <h2>Información de Contacto</h2>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="method-icon">📧</div>
+                    <div class="method-details">
+                        <h3>Correo Electrónico</h3>
+                        <p>info@bibliolexis.com</p>
+                        <p>soporte@bibliolexis.com</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="method-icon">📞</div>
+                    <div class="method-details">
+                        <h3>Teléfono</h3>
+                        <p>+34 912 456 789</p>
+                        <p>Lunes a Viernes: 9:00 - 18:00</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="method-icon">📍</div>
+                    <div class="method-details">
+                        <h3>Dirección</h3>
+                        <p>Calle Librería 123</p>
+                        <p>28001 Madrid, España</p>
+                    </div>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="method-icon">💬</div>
+                    <div class="method-details">
+                        <h3>Redes Sociales</h3>
+                        <div class="social-links">
+                            <a href="#" class="social-link">Twitter</a>
+                            <a href="#" class="social-link">Facebook</a>
+                            <a href="#" class="social-link">LinkedIn</a>
+                            <a href="#" class="social-link">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="office-hours">
+                <h3>Horario de Atención</h3>
+                <ul>
+                    <li><strong>Lunes a Viernes:</strong> 9:00 - 18:00</li>
+                    <li><strong>Sábados:</strong> 10:00 - 14:00</li>
+                    <li><strong>Domingos y Festivos:</strong> Cerrado</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="contact-form-container">
+            <h2>Envíanos un Mensaje</h2>
+            <p>Completa el formulario y te responderemos lo antes posible.</p>
+            
+            <form class="contact-form">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico</label>
+                    <input type="email" id="correo" name="correo" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="asunto">Asunto</label>
+                    <select id="asunto" name="asunto">
+                        <option value="">Selecciona un asunto</option>
+                        <option value="info">Información General</option>
+                        <option value="soporte">Soporte Técnico</option>
+                        <option value="ventas">Ventas</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mensaje">Mensaje</label>
+                    <textarea id="mensaje" name="mensaje" rows="6" required></textarea>
+                </div>
+                
+                <div class="form-check">
+                    <input type="checkbox" id="politica" name="politica" required>
+                    <label for="politica">He leído y acepto la política de privacidad</label>
+                </div>
+                
+                <button type="submit" class="btn-submit">Enviar Mensaje</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="faq-section">
+        <h2>Preguntas Frecuentes</h2>
+        
+        <div class="accordion">
+            <div class="accordion-item">
+                <div class="accordion-header">¿Cómo puedo empezar a usar Bibliolexis?</div>
+                <div class="accordion-content">
+                    <p>Empezar con Bibliolexis es muy sencillo. Solo necesitas registrarte en nuestra plataforma y configurar tu biblioteca. Tenemos guías paso a paso y soporte disponible para ayudarte en todo el proceso.</p>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">¿Qué tipo de bibliotecas pueden usar Bibliolexis?</div>
+                <div class="accordion-content">
+                    <p>Bibliolexis es versátil y se adapta a todo tipo de bibliotecas: escolares, universitarias, públicas, corporativas, personales, etc. Nuestro sistema es escalable y se ajusta a las necesidades de cada tipo de biblioteca.</p>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">¿Ofrecen capacitación para el personal?</div>
+                <div class="accordion-content">
+                    <p>Sí, ofrecemos capacitación tanto online como presencial para el personal de tu biblioteca. Contamos con recursos de aprendizaje, webinars y sesiones personalizadas para asegurar que tu equipo aproveche al máximo todas las funcionalidades de Bibliolexis.</p>
+                </div>
+            </div>
+            
+            <div class="accordion-item">
+                <div class="accordion-header">¿Es posible migrar datos de otro sistema?</div>
+                <div class="accordion-content">
+                    <p>Absolutamente. Contamos con herramientas y procesos para migrar datos desde otros sistemas de gestión bibliotecaria. Nuestro equipo técnico te guiará durante todo el proceso para asegurar una transición sin problemas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Accordion para FAQs
+        const accordionHeaders = document.querySelectorAll('.accordion-header');
+        
+        accordionHeaders.forEach(header => {
+            header.addEventListener('click', function() {
+                // Toggle clase activa en el header
+                this.classList.toggle('active');
+                
+                // Toggle visibilidad del contenido
+                const content = this.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                }
+            });
+        });
+        
+        // Formulario de contacto
+        const contactForm = document.querySelector('.contact-form');
+        
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulamos el envío del formulario
+            const submitBtn = this.querySelector('.btn-submit');
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            
+            // Después de 2 segundos, mostramos mensaje de éxito
+            setTimeout(() => {
+                this.innerHTML = `
+                    <div class="success-message">
+                        <div class="success-icon">✓</div>
+                        <h3>¡Mensaje enviado con éxito!</h3>
+                        <p>Gracias por contactarnos. Te responderemos lo antes posible.</p>
+                    </div>
+                `;
+            }, 2000);
+        });
+    });
+</script>
+{% endblock %}

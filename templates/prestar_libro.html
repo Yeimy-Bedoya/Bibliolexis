@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Solicitar Préstamo - Bibliolexis{% endblock %}
+
+{% block body_class %}form-page{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>Solicitar Préstamo</h1>
+        <a href="{{ url_for('ver_libro', id=libro.id) }}" class="back-link">← Volver a detalles</a>
+    </div>
+    
+    <div class="book-summary">
+        <h2>{{ libro.titulo }}</h2>
+        <p>Autor: {{ libro.autor }}</p>
+    </div>
+    
+    <form class="prestamo-form" method="POST" action="{{ url_for('prestar_libro', libro_id=libro.id) }}">
+        <div class="form-group">
+            <label for="fecha_devolucion">Fecha de devolución</label>
+            <input type="date" id="fecha_devolucion" name="fecha_devolucion" required min="{{ today }}" max="{{ max_date }}">
+            <small>La fecha máxima de préstamo es de 30 días</small>
+        </div>
+        
+        <div class="loan-terms">
+            <h3>Términos del préstamo</h3>
+            <ul>
+                <li>El libro debe ser devuelto en la fecha acordada.</li>
+                <li>El usuario es responsable de mantener el libro en buenas condiciones.</li>
+                <li>En caso de pérdida o daño, se deberá cubrir el costo del libro.</li>
+                <li>Los préstamos vencidos pueden generar restricciones para futuros préstamos.</li>
+            </ul>
+            
+            <div class="form-check">
+                <input type="checkbox" id="accept_terms" name="accept_terms" required>
+                <label for="accept_terms">Acepto los términos del préstamo</label>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Confirmar préstamo</button>
+            <a href="{{ url_for('ver_libro', id=libro.id) }}" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Configurar fecha mínima como hoy
+        const today = new Date();
+        const formattedToday = today.toISOString().split('T')[0];
+        
+        // Configurar fecha máxima como hoy + 30 días
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + 30);
+        const formattedMaxDate = maxDate.toISOString().split('T')[0];
+        
+        const dateInput = document.getElementById('fecha_devolucion');
+        dateInput.min = formattedToday;
+        dateInput.max = formattedMaxDate;
+        dateInput.value = formattedMaxDate; // Por defecto, sugerir el máximo permitido
+    });
+</script>
+{% endblock %}

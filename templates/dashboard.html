@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Bibliolexis{% endblock %}
+
+{% block body_class %}dashboard-page{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Bienvenido, {{ current_user.nombre }}</h1>
+    
+    <div class="dashboard-stats">
+        <div class="stat-card">
+            <div class="stat-icon">📚</div>
+            <div class="stat-content">
+                <h3>Libros Disponibles</h3>
+                <p class="stat-number">{{ libros|length }}</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">📖</div>
+            <div class="stat-content">
+                <h3>Mis Préstamos</h3>
+                <p class="stat-number">{{ current_user.prestamos|selectattr('estado', 'equalto', 'prestado')|list|length }}</p>
+            </div>
+        </div>
+        
+        {% if current_user.rol == 'admin' %}
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <div class="stat-content">
+                <h3>Usuarios</h3>
+                <p class="stat-number">{{ usuarios|default(0) }}</p>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="dashboard-actions">
+        <a href="{{ url_for('libros') }}" class="action-card">
+            <div class="action-icon">🔍</div>
+            <h3>Explorar Catálogo</h3>
+            <p>Navega por nuestra colección de libros</p>
+        </a>
+        
+        <a href="{{ url_for('prestamos') }}" class="action-card">
+            <div class="action-icon">📝</div>
+            <h3>Mis Préstamos</h3>
+            <p>Administra tus préstamos actuales</p>
+        </a>
+        
+        {% if current_user.rol == 'admin' %}
+        <a href="{{ url_for('nuevo_libro') }}" class="action-card">
+            <div class="action-icon">➕</div>
+            <h3>Añadir Libro</h3>
+            <p>Agregar un nuevo libro al catálogo</p>
+        </a>
+        {% endif %}
+    </div>
+    
+    <div class="recent-books">
+        <h2>Libros Recientes</h2>
+        <div class="books-grid">
+            {% for libro in libros[:6] %}
+            <div class="book-card">
+                <div class="book-cover">
+                    <div class="book-spine"></div>
+                    <div class="book-title">{{ libro.titulo }}</div>
+                </div>
+                <div class="book-info">
+                    <h3>{{ libro.titulo }}</h3>
+                    <p class="book-author">{{ libro.autor }}</p>
+                    <p class="book-availability">
+                        {% if libro.disponibles > 0 %}
+                        <span class="available">Disponible</span>
+                        {% else %}
+                        <span class="unavailable">No disponible</span>
+                        {% endif %}
+                    </p>
+                    <a href="{{ url_for('ver_libro', id=libro.id) }}" class="btn-details">Ver detalles</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <a href="{{ url_for('libros') }}" class="btn-view-all">Ver todo el catálogo</a>
+    </div>
+</div>
+{% endblock %}

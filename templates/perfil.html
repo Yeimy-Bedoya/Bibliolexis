@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}Mi Perfil - Bibliolexis{% endblock %}
+
+{% block body_class %}profile-page{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>Mi Perfil</h1>
+    </div>
+    
+    <div class="profile-content">
+        <div class="profile-card">
+            <div class="profile-avatar">
+                <div class="avatar-placeholder">
+                    {{ current_user.nombre[0] }}{{ current_user.apellido[0] }}
+                </div>
+            </div>
+            
+            <div class="profile-info">
+                <h2>{{ current_user.nombre }} {{ current_user.apellido }}</h2>
+                <p class="username">@{{ current_user.nombre_usuario }}</p>
+                
+                <div class="info-section">
+                    <div class="info-item">
+                        <span class="info-label">Correo electrónico</span>
+                        <span class="info-value">{{ current_user.correo }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Teléfono</span>
+                        <span class="info-value">{{ current_user.telefono }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Tipo de usuario</span>
+                        <span class="info-value role-badge {{ current_user.rol }}">{{ current_user.rol }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <span class="info-label">Fecha de registro</span>
+                        <span class="info-value">{{ current_user.fecha_registro.strftime('%d/%m/%Y') }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-stats">
+            <div class="stat-card">
+                <div class="stat-icon">📚</div>
+                <div class="stat-content">
+                    <h3>Préstamos activos</h3>
+                    <p class="stat-number">{{ current_user.prestamos|selectattr('estado', 'equalto', 'prestado')|list|length }}</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">📖</div>
+                <div class="stat-content">
+                    <h3>Préstamos totales</h3>
+                    <p class="stat-number">{{ current_user.prestamos|length }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="profile-actions">
+            <button class="btn-edit-profile">Editar perfil</button>
+            <button class="btn-change-password">Cambiar contraseña</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para editar perfil (oculto por defecto) -->
+<div class="modal" id="editProfileModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Editar Perfil</h2>
+        
+        <form class="edit-profile-form">
+            <div class="form-group">
+                <label for="edit-nombre">Nombre</label>
+                <input type="text" id="edit-nombre" name="nombre" value="{{ current_user.nombre }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-apellido">Apellido</label>
+                <input type="text" id="edit-apellido" name="apellido" value="{{ current_user.apellido }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="edit-telefono">Teléfono</label>
+                <input type="tel" id="edit-telefono" name="telefono" value="{{ current_user.telefono }}" pattern="[0-9]{10}">
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Guardar cambios</button>
+                <button type="button" class="btn-cancel" id="cancelEdit">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para cambiar contraseña (oculto por defecto) -->
+<div class="modal" id="changePasswordModal">
+    <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <h2>Cambiar Contraseña</h2>
+        
+        <form class="change-password-form">
+            <div class="form-group">
+                <label for="current-password">Contraseña actual</label>
+                <input type="password" id="current-password" name="current_password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="new-password">Nueva contraseña</label>
+                <input type="password" id="new-password" name="new_password" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm-password">Confirmar nueva contraseña</label>
+                <input type="password" id="confirm-password" name="confirm_password" required>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-submit">Cambiar contraseña</button>
+                <button type="button" class="btn-cancel" id="cancelPassword">Cancelar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Modales
+        const editProfileModal = document.getElementById('editProfileModal');
+        const changePasswordModal = document.getElementById('changePasswordModal');
+        const editProfileBtn = document.querySelector('.btn-edit-profile');
+        const changePasswordBtn = document.querySelector('.btn-change-password');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        const cancelEditBtn = document.getElementById('cancelEdit');
+        const cancelPasswordBtn = document.getElementById('cancelPassword');
+        
+        // Abrir modales
+        editProfileBtn.addEventListener('click', function() {
+            editProfileModal.style.display = 'block';
+        });
+        
+        changePasswordBtn.addEventListener('click', function() {
+            changePasswordModal.style.display = 'block';
+        });
+        
+        // Cerrar modales
+        function closeModals() {
+            editProfileModal.style.display = 'none';
+            changePasswordModal.style.display = 'none';
+        }
+        
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', closeModals);
+        });
+        
+        cancelEditBtn.addEventListener('click', closeModals);
+        cancelPasswordBtn.addEventListener('click', closeModals);
+        
+        // Cerrar al hacer clic fuera del modal
+        window.addEventListener('click', function(event) {
+            if (event.target === editProfileModal) {
+                closeModals();
+            }
+            if (event.target === changePasswordModal) {
+                closeModals();
+            }
+        });
+        
+        // Formularios (aquí puedes agregar la lógica para enviar los datos via AJAX)
+        const editProfileForm = document.querySelector('.edit-profile-form');
+        const changePasswordForm = document.querySelector('.change-password-form');
+        
+        editProfileForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aquí implementarías la lógica para enviar los datos
+            alert('Esta funcionalidad estará disponible pronto. Los cambios no se han guardado.');
+            closeModals();
+        });
+        
+        changePasswordForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (newPassword !== confirmPassword) {
+                alert('Las contraseñas no coinciden');
+                return;
+            }
+            
+            // Aquí implementarías la lógica para enviar los datos
+            alert('Esta funcionalidad estará disponible pronto. La contraseña no se ha cambiado.');
+            closeModals();
+        });
+    });
+</script>
+{% endblock %}

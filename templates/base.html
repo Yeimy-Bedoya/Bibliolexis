@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bibliolexis{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+    {% block navbar %}
+    {% if current_user.is_authenticated %}
+    <nav class="navbar">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="nav-logo">
+            <span>Bibliolexis</span>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('dashboard') }}">Inicio</a>
+            <a href="{{ url_for('libros') }}">Catálogo</a>
+            <a href="{{ url_for('prestamos') }}">Mis Préstamos</a>
+            {% if current_user.rol == 'admin' %}
+            <a href="{{ url_for('nuevo_libro') }}">Añadir Libro</a>
+            {% endif %}
+            <a href="{{ url_for('perfil') }}">Mi Perfil</a>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Cerrar Sesión</a>
+        </div>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+    {% endif %}
+    {% endblock %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                        <span class="close-btn">&times;</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+
+    {% block footer %}
+    <footer>
+        <p>&copy; {{ year }} Todos los derechos reservados - Bibliolexis</p>
+    </footer>
+    {% endblock %}
+
+    <script>
+        // Cerrar alertas
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButtons = document.querySelectorAll('.close-btn');
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.style.opacity = '0';
+                    setTimeout(() => {
+                        this.parentElement.style.display = 'none';
+                    }, 300);
+                });
+            });
+
+            // Alternar menú móvil
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navLinks = document.querySelector('.nav-links');
+            
+            if (menuToggle && navLinks) {
+                menuToggle.addEventListener('click', function() {
+                    navLinks.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
+            }
+
+            // Agregar transición de carga a la página
+            setTimeout(function() {
+                document.body.classList.add('visible');
+            }, 100);
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

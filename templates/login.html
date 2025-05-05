@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Bibliolexis - Inicio de Sesión{% endblock %}
+
+{% block body_class %}centered-page{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<a class="back-button" href="{{ url_for('index') }}">Volver</a>
+
+<div class="login-container">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="logo">
+        <h1>Bibliolexis</h1>
+    </div>
+    <h2>INICIO SESIÓN</h2>
+    <form id="login-form" method="POST" action="{{ url_for('login') }}">
+        <div class="input-group">
+            <span class="input-icon">👤</span>
+            <input type="text" id="usuario" name="usuario" placeholder="USUARIO" required>
+        </div>
+        <div class="input-group">
+            <span class="input-icon">🔒</span>
+            <input type="password" id="contrasena" name="contrasena" placeholder="CONTRASEÑA" required>
+        </div>
+        <button type="submit">INICIAR SESIÓN</button>
+    </form>
+    <div class="form-footer">
+        <p>¿No tienes una cuenta? <a href="{{ url_for('registro') }}">Regístrate</a></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const container = document.querySelector('.login-container');
+            if (container) {
+                container.classList.add('visible');
+            }
+        }, 100);
+    });
+</script>
+{% endblock %}

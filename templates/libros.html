@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}Catálogo de Libros - Bibliolexis{% endblock %}
+
+{% block body_class %}catalog-page{% endblock %}
+
+{% block content %}
+<div class="catalog-container">
+    <div class="catalog-header">
+        <h1>Catálogo de Libros</h1>
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="Buscar por título, autor...">
+            <select id="genreFilter">
+                <option value="">Todos los géneros</option>
+                {% set genres = [] %}
+                {% for libro in libros %}
+                    {% if libro.genero and libro.genero not in genres %}
+                        {% set _ = genres.append(libro.genero) %}
+                        <option value="{{ libro.genero }}">{{ libro.genero }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+            <button id="searchBtn">Buscar</button>
+        </div>
+    </div>
+    
+    <div class="books-grid">
+        {% for libro in libros %}
+        <div class="book-card" data-title="{{ libro.titulo }}" data-author="{{ libro.autor }}" data-genre="{{ libro.genero }}">
+            <div class="book-cover">
+                <div class="book-spine"></div>
+                <div class="book-title">{{ libro.titulo }}</div>
+            </div>
+            <div class="book-info">
+                <h3>{{ libro.titulo }}</h3>
+                <p class="book-author">{{ libro.autor }}</p>
+                <p class="book-genre">{{ libro.genero }}</p>
+                <p class="book-availability">
+                    {% if libro.disponibles > 0 %}
+                    <span class="available">Disponible ({{ libro.disponibles }})</span>
+                    {% else %}
+                    <span class="unavailable">No disponible</span>
+                    {% endif %}
+                </p>
+                <a href="{{ url_for('ver_libro', id=libro.id) }}" class="btn-details">Ver detalles</a>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-results">
+            <p>No hay libros disponibles en el catálogo.</p>
+            {% if current_user.rol == 'admin' %}
+            <a href="{{ url_for('nuevo_libro') }}" class="btn-add">Añadir libro</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    
+    {% if current_user.rol == 'admin' %}
+    <div class="admin-actions">
+        <a href="{{ url_for('nuevo_libro') }}" class="btn-add">Añadir nuevo libro</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const genreFilter = document.getElementById('genreFilter');
+        const searchBtn = document.getElementById('searchBtn');
+        const bookCards = document.querySelectorAll('.book-card');
+        
+        // Función para filtrar libros
+        function filterBooks() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedGenre = genreFilter.value.toLowerCase();
+            
+            bookCards.forEach(card => {
+                const title = card.dataset.title.toLowerCase();
+                const author = card.dataset.author.toLowerCase();
+                const genre = card.dataset.genre.toLowerCase();
+                
+                const matchesSearch = title.includes(searchTerm) || author.includes(searchTerm);
+                const matchesGenre = !selectedGenre || genre === selectedGenre;
+                
+                if (matchesSearch && matchesGenre) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Verificar si hay resultados visibles
+            const visibleCards = document.querySelectorAll('.book-card[style="display: flex;"]');
+            const noResultsEl = document.querySelector('.no-results');
+            
+            if (visibleCards.length === 0 && !noResultsEl) {
+                const noResults = document.createElement('div');
+                noResults.className = 'no-results';
+                noResults.innerHTML = '<p>No se encontraron libros que coincidan con la búsqueda.</p>';
+                document.querySelector('.books-grid').appendChild(noResults);
+            } else if (visibleCards.length > 0 && noResultsEl) {
+                noResultsEl.remove();
+            }
+        }
+        
+        // Eventos
+        searchBtn.addEventListener('click', filterBooks);
+        searchInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                filterBooks();
+            }
+        });
+        genreFilter.addEventListener('change', filterBooks);
+    });
+</script>
+{% endblock %}

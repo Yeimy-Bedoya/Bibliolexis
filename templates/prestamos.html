@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}Mis Préstamos - Bibliolexis{% endblock %}
+
+{% block body_class %}loans-page{% endblock %}
+
+{% block content %}
+<div class="loans-container">
+    <div class="loans-header">
+        <h1>{% if current_user.rol == 'admin' %}Gestión de Préstamos{% else %}Mis Préstamos{% endif %}</h1>
+        <div class="filters">
+            <select id="statusFilter">
+                <option value="all">Todos los estados</option>
+                <option value="prestado">Prestados</option>
+                <option value="devuelto">Devueltos</option>
+                <option value="vencido">Vencidos</option>
+            </select>
+        </div>
+    </div>
+    
+    <div class="loans-list">
+        {% for prestamo in prestamos %}
+        <div class="loan-card" data-status="{{ prestamo.estado }}">
+            <div class="loan-header">
+                <h3>{{ prestamo.libro.titulo }}</h3>
+                <span class="loan-status {{ prestamo.estado }}">{{ prestamo.estado }}</span>
+            </div>
+            
+            <div class="loan-details">
+                <div class="loan-info">
+                    <p><strong>Autor:</strong> {{ prestamo.libro.autor }}</p>
+                    <p><strong>Fecha de préstamo:</strong> {{ prestamo.fecha_prestamo.strftime('%d/%m/%Y') }}</p>
+                    <p><strong>Fecha de devolución:</strong> {{ prestamo.fecha_devolucion.strftime('%d/%m/%Y') }}</p>
+                    
+                    {% if prestamo.fecha_devolucion_real %}
+                    <p><strong>Fecha de devolución real:</strong> {{ prestamo.fecha_devolucion_real.strftime('%d/%m/%Y') }}</p>
+                    {% endif %}
+                    
+                    {% if current_user.rol == 'admin' %}
+                    <p><strong>Usuario:</strong> {{ prestamo.usuario.nombre }} {{ prestamo.usuario.apellido }}</p>
+                    {% endif %}
+                </div>
+                
+                <div class="loan-actions">
+                    <a href="{{ url_for('ver_libro', id=prestamo.libro_id) }}" class="btn-details">Ver libro</a>
+                    
+                    {% if prestamo.estado == 'prestado' %}
+                    <a href="{{ url_for('devolver_libro', prestamo_id=prestamo.id) }}" class="btn-return">Devolver libro</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="no-loans">
+            <p>No hay préstamos disponibles.</p>
+            <a href="{{ url_for('libros') }}" class="btn-browse">Explorar catálogo</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusFilter = document.getElementById('statusFilter');
+        const loanCards = document.querySelectorAll('.loan-card');
+        
+        // Función para filtrar préstamos
+        function filterLoans() {
+            const selectedStatus = statusFilter.value;
+            
+            loanCards.forEach(card => {
+                const status = card.dataset.status;
+                
+                if (selectedStatus === 'all' || status === selectedStatus) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            // Verificar si hay resultados visibles
+            const visibleCards = document.querySelectorAll('.loan-card[style="display: block;"]');
+            const noLoansEl = document.querySelector('.no-loans');
+            
+            if (visibleCards.length === 0 && !noLoansEl) {
+                const noLoans = document.createElement('div');
+                noLoans.className = 'no-loans';
+                noLoans.innerHTML = '<p>No hay préstamos que coincidan con el filtro seleccionado.</p>';
+                document.querySelector('.loans-list').appendChild(noLoans);
+            } else if (visibleCards.length > 0 && noLoansEl) {
+                noLoansEl.remove();
+            }
+        }
+        
+        // Evento para el filtro
+        statusFilter.addEventListener('change', filterLoans);
+        
+        // Verificar préstamos vencidos
+        const today = new Date();
+        loanCards.forEach(card => {
+            if (card.dataset.status === 'prestado') {
+                const dueDate = new Date(card.querySelector('.loan-details .loan-info p:nth-child(3)').textContent.split(': ')[1].trim());
+                
+                if (dueDate < today) {
+                    card.dataset.status = 'vencido';
+                    card.querySelector('.loan-status').textContent = 'vencido';
+                    card.querySelector('.loan-status').className = 'loan-status vencido';
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Registro de Usuario - Bibliolexis{% endblock %}
+
+{% block body_class %}centered-page{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<a class="back-button" href="{{ url_for('index') }}">Volver</a>
+
+<div class="container">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="logo">
+        <h1>Bibliolexis</h1>
+    </div>
+    <h2>Registro de Lector</h2>
+    <form id="registro-form" method="POST" action="{{ url_for('registro') }}">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" name="apellido" id="apellido" required>
+
+        <label for="usuario">Nombre de Usuario:</label>
+        <input type="text" name="usuario" id="usuario" required>
+
+        <label for="correo">Correo Electrónico:</label>
+        <input type="email" name="correo" id="correo" required>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="tel" name="telefono" id="telefono" required pattern="[0-9]{10}" title="Ingrese un número de 10 dígitos">
+
+        <label for="contrasena">Contraseña:</label>
+        <input type="password" name="contrasena" id="contrasena" required>
+
+        <label for="confirmar_contrasena">Confirmar Contraseña:</label>
+        <input type="password" name="confirmar_contrasena" id="confirmar_contrasena" required>
+
+        <input type="submit" value="Registrarse">
+    </form>
+    <div class="form-footer">
+        <p>¿Ya tienes una cuenta? <a href="{{ url_for('login') }}">Inicia sesión</a></p>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const container = document.querySelector('.container');
+            if (container) {
+                container.classList.add('visible');
+            }
+        }, 100);
+
+        // Validación de contraseñas
+        const form = document.getElementById('registro-form');
+        form.addEventListener('submit', function(event) {
+            const password = document.getElementById('contrasena').value;
+            const confirmPassword = document.getElementById('confirmar_contrasena').value;
+            
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                alert('Las contraseñas no coinciden');
+            }
+        });
+    });
+</script>
+{% endblock %}

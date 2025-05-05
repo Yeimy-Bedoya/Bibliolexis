@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Bibliolexis - Tu biblioteca, siempre en orden{% endblock %}
+
+{% block body_class %}home-body{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="top-buttons">
+    <a href="{{ url_for('login') }}" class="btn-glass">INICIAR SESIÓN</a>
+    <a href="{{ url_for('registro') }}" class="btn-glass">REGISTRARSE</a>
+</div>
+
+<div class="main-content">
+    <div class="logo-section">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="main-logo">
+        <h1>Bibliolexis</h1>
+        <p class="slogan">TU BIBLIOTECA, SIEMPRE EN ORDEN</p>
+    </div>
+
+    <div class="menu-container">
+        <a href="{{ url_for('sobre_nosotros') }}" class="menu-button">SOBRE NOSOTROS</a>
+        <a href="{{ url_for('clientes') }}" class="menu-button">NUESTROS CLIENTES</a>
+        <a href="{{ url_for('contacto') }}" class="menu-button">CONTÁCTANOS</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <p>TODOS LOS DERECHOS RESERVADOS</p>
+</footer>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            document.body.classList.add('visible');
+        }, 100);
+    });
+</script>
+{% endblock %}

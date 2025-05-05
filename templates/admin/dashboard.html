@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="admin-dashboard">
+    <h2>Panel de Administración</h2>
+    
+    <!-- Estadísticas Generales -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total de Libros</h3>
+            <p class="stat-number">{{ total_libros }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Usuarios Registrados</h3>
+            <p class="stat-number">{{ total_usuarios }}</p>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Préstamos Activos</h3>
+            <p class="stat-number">{{ prestamos_activos }}</p>
+        </div>
+    </div>
+
+    <!-- Acciones Rápidas -->
+    <div class="admin-actions">
+        <h3>Acciones Rápidas</h3>
+        <div class="button-group">
+            <a href="{{ url_for('nuevo_libro') }}" class="btn btn-primary">Añadir Libro</a>
+            <a href="{{ url_for('prestamos') }}" class="btn btn-info">Ver Préstamos</a>
+            <a href="{{ url_for('libros') }}" class="btn btn-secondary">Gestionar Libros</a>
+        </div>
+    </div>
+
+    <!-- Información Detallada -->
+    <div class="dashboard-details">
+        <!-- Últimos Usuarios Registrados -->
+        <div class="detail-section">
+            <h3>Últimos Usuarios Registrados</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Fecha Registro</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for usuario in ultimos_usuarios %}
+                        <tr>
+                            <td>{{ usuario.nombre_usuario }}</td>
+                            <td>{{ usuario.correo }}</td>
+                            <td>{{ usuario.fecha_registro.strftime('%Y-%m-%d') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Últimos Préstamos -->
+        <div class="detail-section">
+            <h3>Últimos Préstamos</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Libro</th>
+                            <th>Usuario</th>
+                            <th>Fecha Préstamo</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for prestamo in ultimos_prestamos %}
+                        <tr>
+                            <td>{{ prestamo.libro.titulo }}</td>
+                            <td>{{ prestamo.usuario.nombre_usuario }}</td>
+                            <td>{{ prestamo.fecha_prestamo.strftime('%Y-%m-%d') }}</td>
+                            <td>
+                                <span class="badge {% if prestamo.estado == 'prestado' %}badge-warning{% else %}badge-success{% endif %}">
+                                    {{ prestamo.estado }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Libros Más Populares -->
+        <div class="detail-section">
+            <h3>Libros Más Populares</h3>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Título</th>
+                            <th>Autor</th>
+                            <th>Disponibles</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for libro in libros_populares %}
+                        <tr>
+                            <td>{{ libro.titulo }}</td>
+                            <td>{{ libro.autor }}</td>
+                            <td>{{ libro.disponibles }}</td>
+                            <td>{{ libro.total }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

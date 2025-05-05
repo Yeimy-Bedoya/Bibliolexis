@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Libro - Bibliolexis{% endblock %}
+
+{% block body_class %}form-page{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h1>Editar Libro</h1>
+        <a href="{{ url_for('ver_libro', id=libro.id) }}" class="back-link">← Volver a detalles</a>
+    </div>
+    
+    <form class="libro-form" method="POST" action="{{ url_for('editar_libro', id=libro.id) }}">
+        <div class="form-grid">
+            <div class="form-group">
+                <label for="titulo">Título</label>
+                <input type="text" id="titulo" name="titulo" value="{{ libro.titulo }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="autor">Autor</label>
+                <input type="text" id="autor" name="autor" value="{{ libro.autor }}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="editorial">Editorial</label>
+                <input type="text" id="editorial" name="editorial" value="{{ libro.editorial }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="anio">Año de publicación</label>
+                <input type="text" id="anio" name="anio" value="{{ libro.anio }}" maxlength="4" pattern="[0-9]{4}">
+            </div>
+            
+            <div class="form-group">
+                <label for="isbn">ISBN</label>
+                <input type="text" id="isbn" name="isbn" value="{{ libro.isbn }}">
+            </div>
+            
+            <div class="form-group">
+                <label for="genero">Género</label>
+                <select id="genero" name="genero">
+                    <option value="">Seleccionar género</option>
+                    {% set genres = ['Novela', 'Poesía', 'Drama', 'Ensayo', 'Ciencia Ficción', 'Fantasía', 'Misterio', 'Aventura', 'Romance', 'Histórico', 'Biografía', 'Infantil', 'Autoayuda', 'Educativo', 'Otro'] %}
+                    {% for genre in genres %}
+                        <option value="{{ genre }}" {% if libro.genero == genre %}selected{% endif %}>{{ genre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" id="cantidad" name="cantidad" min="1" value="{{ libro.total }}">
+            </div>
+        </div>
+        
+        <div class="form-group full-width">
+            <label for="sinopsis">Sinopsis</label>
+            <textarea id="sinopsis" name="sinopsis" rows="6">{{ libro.sinopsis }}</textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-submit">Guardar cambios</button>
+            <a href="{{ url_for('ver_libro', id=libro.id) }}" class="btn-cancel">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

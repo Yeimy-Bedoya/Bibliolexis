@@ -1,0 +1,230 @@
+{% extends "base.html" %}
+
+{% block title %}Nuestros Clientes - Bibliolexis{% endblock %}
+
+{% block body_class %}clients-page{% endblock %}
+
+{% block navbar %}
+<nav class="navbar transparent">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Bibliolexis Logo" class="nav-logo">
+        <span>Bibliolexis</span>
+    </div>
+    <div class="nav-links">
+        <a href="{{ url_for('index') }}">Inicio</a>
+        <a href="{{ url_for('sobre_nosotros') }}">Sobre Nosotros</a>
+        <a href="{{ url_for('clientes') }}" class="active">Nuestros Clientes</a>
+        <a href="{{ url_for('contacto') }}">Contáctanos</a>
+        <a href="{{ url_for('login') }}" class="btn-login">Iniciar Sesión</a>
+    </div>
+    <div class="menu-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="hero-section clients-hero">
+    <div class="hero-content">
+        <h1>Nuestros Clientes</h1>
+        <p>Cientos de bibliotecas confían en Bibliolexis para la gestión de sus colecciones</p>
+    </div>
+</div>
+
+<div class="clients-container">
+    <section class="clients-intro">
+        <h2>Quienes confían en nosotros</h2>
+        <p>Desde pequeñas bibliotecas escolares hasta grandes instituciones académicas, nuestros clientes valoran la simplicidad, eficiencia y confiabilidad de Bibliolexis.</p>
+    </section>
+
+    <section class="client-types">
+        <div class="client-type">
+            <div class="client-icon">🏫</div>
+            <h3>Bibliotecas Escolares</h3>
+            <p>Colegios y escuelas que necesitan gestionar sus colecciones de manera sencilla y efectiva.</p>
+        </div>
+        
+        <div class="client-type">
+            <div class="client-icon">🎓</div>
+            <h3>Bibliotecas Universitarias</h3>
+            <p>Instituciones académicas con grandes colecciones y necesidades de gestión avanzadas.</p>
+        </div>
+        
+        <div class="client-type">
+            <div class="client-icon">📚</div>
+            <h3>Bibliotecas Públicas</h3>
+            <p>Espacios comunitarios que buscan simplificar sus procesos de préstamo y devolución.</p>
+        </div>
+        
+        <div class="client-type">
+            <div class="client-icon">🏢</div>
+            <h3>Bibliotecas Corporativas</h3>
+            <p>Empresas que mantienen colecciones de recursos para sus empleados e investigadores.</p>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2>Lo que dicen nuestros clientes</h2>
+        
+        <div class="testimonial-slider">
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p>"Bibliolexis ha transformado por completo la gestión de nuestra biblioteca escolar. El proceso de préstamo ahora es rápido y sencillo, y los alumnos pueden encontrar fácilmente los libros que necesitan."</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-placeholder">MR</div>
+                    </div>
+                    <div class="author-info">
+                        <h4>María Rodríguez</h4>
+                        <p>Bibliotecaria, Colegio San José</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p>"Como biblioteca universitaria con más de 50,000 volúmenes, necesitábamos un sistema robusto pero fácil de usar. Bibliolexis cumple con todas nuestras necesidades y su soporte técnico es excepcional."</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-placeholder">JL</div>
+                    </div>
+                    <div class="author-info">
+                        <h4>Dr. Javier López</h4>
+                        <p>Director de Biblioteca, Universidad Central</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial">
+                <div class="testimonial-content">
+                    <p>"La implementación de Bibliolexis en nuestra biblioteca pública ha sido todo un éxito. Nuestros usuarios ahora pueden gestionar sus préstamos de forma autónoma y el personal tiene más tiempo para actividades de fomento a la lectura."</p>
+                </div>
+                <div class="testimonial-author">
+                    <div class="author-avatar">
+                        <div class="avatar-placeholder">CS</div>
+                    </div>
+                    <div class="author-info">
+                        <h4>Carmen Sánchez</h4>
+                        <p>Coordinadora, Biblioteca Municipal de Artes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="testimonial-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <section class="featured-clients">
+        <h2>Clientes Destacados</h2>
+        
+        <div class="clients-grid">
+            <div class="client-logo">
+                <div class="logo-placeholder">Universidad Nacional</div>
+            </div>
+            <div class="client-logo">
+                <div class="logo-placeholder">Red de Bibliotecas Públicas</div>
+            </div>
+            <div class="client-logo">
+                <div class="logo-placeholder">Instituto Tecnológico</div>
+            </div>
+            <div class="client-logo">
+                <div class="logo-placeholder">Colegio San Martín</div>
+            </div>
+            <div class="client-logo">
+                <div class="logo-placeholder">Fundación Lectores</div>
+            </div>
+            <div class="client-logo">
+                <div class="logo-placeholder">Biblioteca Central</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="success-stories">
+        <h2>Historias de Éxito</h2>
+        
+        <div class="story-cards">
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="{{ url_for('static', filename='img/success1.jpg') }}" alt="Historia de éxito 1">
+                </div>
+                <div class="story-content">
+                    <h3>Biblioteca Municipal de Valencia</h3>
+                    <p>Cómo Bibliolexis ayudó a aumentar los préstamos en un 35% y mejorar la satisfacción de los usuarios.</p>
+                    <a href="#" class="btn-read-more">Leer más</a>
+                </div>
+            </div>
+            
+            <div class="story-card">
+                <div class="story-image">
+                    <img src="{{ url_for('static', filename='img/success2.jpg') }}" alt="Historia de éxito 2">
+                </div>
+                <div class="story-content">
+                    <h3>Red de Bibliotecas Escolares</h3>
+                    <p>Implementación exitosa en 12 escuelas, simplificando la gestión y fomentando la lectura entre estudiantes.</p>
+                    <a href="#" class="btn-read-more">Leer más</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="join-section">
+        <div class="join-content">
+            <h2>Únete a nuestra comunidad de bibliotecas</h2>
+            <p>Descubre cómo Bibliolexis puede transformar la gestión de tu biblioteca y mejorar la experiencia de tus usuarios.</p>
+            <a href="{{ url_for('registro') }}" class="btn-join">Comenzar ahora</a>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Controlador para el slider de testimonios
+        let currentSlide = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        const dots = document.querySelectorAll('.dot');
+        
+        function showSlide(index) {
+            // Ocultar todos los testimonios
+            testimonials.forEach(testimonial => {
+                testimonial.style.display = 'none';
+            });
+            
+            // Desactivar todos los dots
+            dots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            // Mostrar el testimonio actual
+            testimonials[index].style.display = 'block';
+            dots[index].classList.add('active');
+        }
+        
+        // Inicializar
+        showSlide(currentSlide);
+        
+        // Cambiar slide al hacer clic en dots
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', function() {
+                currentSlide = index;
+                showSlide(currentSlide);
+            });
+        });
+        
+        // Cambiar slide automáticamente cada 5 segundos
+        setInterval(function() {
+            currentSlide = (currentSlide + 1) % testimonials.length;
+            showSlide(currentSlide);
+        }, 5000);
+    });
+</script>
+{% endblock %}

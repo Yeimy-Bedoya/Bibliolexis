@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}{{ libro.titulo }} - Bibliolexis{% endblock %}
+
+{% block body_class %}book-detail-page{% endblock %}
+
+{% block content %}
+<div class="book-detail-container">
+    <div class="book-header">
+        <a href="{{ url_for('libros') }}" class="back-link">← Volver al catálogo</a>
+        <h1>{{ libro.titulo }}</h1>
+    </div>
+    
+    <div class="book-detail">
+        <div class="book-cover-large">
+            <div class="book-spine-large"></div>
+            <div class="book-title-large">{{ libro.titulo }}</div>
+            <div class="book-author-cover">{{ libro.autor }}</div>
+        </div>
+        
+        <div class="book-info-detail">
+            <h2>{{ libro.titulo }}</h2>
+            <p class="book-author-detail">Por <strong>{{ libro.autor }}</strong></p>
+            
+            <div class="book-metadata">
+                <div class="metadata-item">
+                    <span class="metadata-label">Editorial:</span>
+                    <span class="metadata-value">{{ libro.editorial }}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Año:</span>
+                    <span class="metadata-value">{{ libro.anio }}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">ISBN:</span>
+                    <span class="metadata-value">{{ libro.isbn }}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Género:</span>
+                    <span class="metadata-value">{{ libro.genero }}</span>
+                </div>
+                <div class="metadata-item">
+                    <span class="metadata-label">Disponibilidad:</span>
+                    <span class="metadata-value availability-indicator {% if libro.disponibles > 0 %}available{% else %}unavailable{% endif %}">
+                        {% if libro.disponibles > 0 %}
+                            {{ libro.disponibles }} de {{ libro.total }} disponibles
+                        {% else %}
+                            No disponible
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+            <div class="book-synopsis">
+                <h3>Sinopsis</h3>
+                <p>{{ libro.sinopsis }}</p>
+            </div>
+            
+            <div class="book-actions">
+                {% if libro.disponibles > 0 %}
+                <a href="{{ url_for('prestar_libro', libro_id=libro.id) }}" class="btn-borrow">Solicitar préstamo</a>
+                {% else %}
+                <button class="btn-disabled" disabled>No disponible</button>
+                {% endif %}
+                
+                {% if current_user.rol == 'admin' %}
+                <a href="{{ url_for('editar_libro', id=libro.id) }}" class="btn-edit">Editar libro</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
